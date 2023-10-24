@@ -6,7 +6,7 @@ let storyList;
 /** Get and show stories when site first loads. */
 
 async function getAndShowStoriesOnStart() {
-  storyList = await StoryList.getStories();
+  storyList = await storyList.getStories();
   $storiesLoadingMsg.remove();
 
   putStoriesOnPage();
@@ -38,7 +38,7 @@ function generateStoryMarkup(story) {
 }
 
 function favoriteStar(story, user) {
-  const isFavorite = new User(user.isFavorite(story));
+  const isFavorite = user.isFavorite(story);
   let starType = '';
   if(isFavorite === true){
     starType = 'fas';
@@ -81,7 +81,4 @@ async function submitStory(e) {
   
 }
 
-const submitForm = document.querySelector('#submitForm');
-submitForm.addEventListener('submit', function(e){
-  console.log('its also working');
-})
+$('#submitForm').on('submit', submitStory);

@@ -206,6 +206,26 @@ class User {
       return null;
     }
   }
+  
+    //making a function to pass each 'favorite' story through
+  async addOrDeleteFavorite(method, story){
+    const token = this.loginToken;
+    if(method === 'post'){
+      axiost.post(`https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${story.storyId}`, {
+        params : {
+          token
+        }
+      });
+    };
+    if(method === 'delete'){
+      axiost.delete(`https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${story.storyId}`, {
+        params : {
+          token
+        }
+      });
+    };
+  };
+
   async addFavorite(story){
     //adding this story to the favorites array in constructor
     this.favorites.push(story);
@@ -228,4 +248,5 @@ class User {
       }
     })
   }
+  
 }
