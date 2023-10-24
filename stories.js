@@ -38,7 +38,7 @@ function generateStoryMarkup(story) {
 }
 
 function favoriteStar(story, user) {
-  const isFavorite = user.isFavorite(story);
+  const isFavorite = new User(user.isFavorite(story));
   let starType = '';
   if(isFavorite === true){
     starType = 'fas';
