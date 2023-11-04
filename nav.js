@@ -14,6 +14,15 @@ function navAllStories(evt) {
 
 $body.on("click", "#nav-all", navAllStories);
 
+function navMyStories(evt) {
+  console.debug("navMyStories", evt);
+  hidePageComponents();
+  putUserStoriesOnPage();
+  $ownStories.show();
+}
+
+$body.on("click", "#nav-my-stories", navMyStories);
+
 /** Show login/signup on click on "login" */
 
 function navLoginClick(evt) {
@@ -21,9 +30,18 @@ function navLoginClick(evt) {
   hidePageComponents();
   $loginForm.show();
   $signupForm.show();
+  $storiesContainer.hide()
 }
 
 $navLogin.on("click", navLoginClick);
+
+function navFavoritesClick(evt) {
+  console.debug("navFavoritesClick", evt);
+  hidePageComponents();
+  putFavoritesListOnPage();
+}
+
+$body.on("click", "#nav-favorites", navFavoritesClick);
 
 /** When a user first logins in, update the navbar to reflect that. */
 
@@ -40,3 +58,11 @@ function navOnSubmit(e){
 }
 
 $('#nav-submit').on('click', navOnSubmit)
+
+function navProfileClick(evt) {
+  console.debug("navProfileClick", evt);
+  hidePageComponents();
+  $userProfile.show();
+}
+
+$navUserProfile.on("click", navProfileClick);

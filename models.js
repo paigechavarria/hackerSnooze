@@ -74,20 +74,55 @@ class StoryList {
    */
   //class="stories-list">
 
-  async addStory(user, {title, author, url}) {
-    let getToken = user.loginToken;
-    let addNewStory = await axios.post("https://hack-or-snooze-v3.herokuapp.com/stories", {
-        data: {getToken, story: {
-          title, 
-          author, 
-          url
-        }}
+  async addStory(user, { title, author, url}) {
+    const token = user.loginToken;
+    const response = await axios.post(`${BASE_URL}/stories?token=${token}`, {
+      params: { story: { title, author, url } },
     });
-    const storyInstance = new Story(addNewStory.data.storyInstance);
-    this.stories.unshift(storyInstance);
-    user.ownStories.unshift(storyInstance);
 
-    return storyInstance;
+    const story = new Story(response.data.story);
+    this.stories.unshift(story);
+    user.ownStories.unshift(story);
+
+    return story;
+  }
+
+  //async addStory(user, {author, title, url}) {
+  //  console.log(currentUser.loginToken)
+  //  let token = currentUser.loginToken;
+  //  console.log(token);
+  //  const response = await axios({
+  //    method: "POST",
+  //    url: `${BASE_URL}/stories`,
+  //    data: { token, story: { title, author, url } },
+  //  });
+    //let addNewStory = await axios.post("https://hack-or-snooze-v3.herokuapp.com/stories", {
+    //    data : {token, story: {
+    //      author, 
+    //      title,
+    //      url
+    //    }}
+    //});
+  //  const storyInstance = new Story(response.data.story);
+  //  this.stories.unshift(storyInstance);
+  //  user.ownStories.unshift(storyInstance);
+
+  //  return storyInstance;
+  //}
+  async removeStory(user, storyId) {
+    const token = user.loginToken;
+    await axios({
+      url: `${BASE_URL}/stories/${storyId}`,
+      method: "DELETE",
+      data: { token: user.loginToken }
+    });
+
+    // filter out the story whose ID we are removing
+    this.stories = this.stories.filter(story => story.storyId !== storyId);
+
+    // do the same thing for the user's list of stories & their favorites
+    user.ownStories = user.ownStories.filter(s => s.storyId !== storyId);
+    user.favorites = user.favorites.filter(s => s.storyId !== storyId);
   }
 }
 
@@ -206,23 +241,23 @@ class User {
       return null;
     }
   }
-  
-    //making a function to pass each 'favorite' story through
+
+  //making a function to pass each 'favorite' story through
   async addOrDeleteFavorite(method, story){
-    const token = this.loginToken;
+    //const token = currentUser.loginToken;
     if(method === 'post'){
-      axiost.post(`https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${story.storyId}`, {
-        params : {
-          token
-        }
-      });
+      axios.post(`https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${story.storyId}?token=${this.loginToken}`//, {
+        //params : {
+        //  token
+        //}
+      );
     };
     if(method === 'delete'){
-      axiost.delete(`https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${story.storyId}`, {
-        params : {
-          token
-        }
-      });
+      axios.delete(`https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${story.storyId}?token=${this.loginToken}` //{
+        //params : {
+        //  token
+        //}
+      );
     };
   };
 
@@ -248,5 +283,4 @@ class User {
       }
     })
   }
-  
-}
+};
