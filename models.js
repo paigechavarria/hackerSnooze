@@ -81,7 +81,7 @@ class StoryList {
       url: `${BASE_URL}/stories`,
       data: {
         token: token,
-        story: { title, author, url, },
+        story: { title, author, url },
       },
     }
     );
