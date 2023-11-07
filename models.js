@@ -81,12 +81,8 @@ class StoryList {
       method: "POST",
       data: {
         token: token,
-        story: {
-          title,
-          author,
-          url
-        }
-      }
+        story: { title, author, url },
+      },
     });
     
 
