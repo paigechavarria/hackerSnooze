@@ -78,15 +78,15 @@ class StoryList {
     const token = user.loginToken;
     const response = await axios.post(`${BASE_URL}/stories`, {
       data: {
-        token: token,
-        story: { title, author, url },
+        token,
+        story: { title, author, url, },
       },
     }
     );
     
 
     const story = new Story(response.data.story);
-    this.stories.unshift(story);
+    stories.unshift(story);
     user.ownStories.unshift(story);
 
     return story;
