@@ -93,28 +93,6 @@ class StoryList {
     return story;
   }
 
-  //async addStory(user, {author, title, url}) {
-  //  console.log(currentUser.loginToken)
-  //  let token = currentUser.loginToken;
-  //  console.log(token);
-  //  const response = await axios({
-  //    method: "POST",
-  //    url: `${BASE_URL}/stories`,
-  //    data: { token, story: { title, author, url } },
-  //  });
-    //let addNewStory = await axios.post("https://hack-or-snooze-v3.herokuapp.com/stories", {
-    //    data : {token, story: {
-    //      author, 
-    //      title,
-    //      url
-    //    }}
-    //});
-  //  const storyInstance = new Story(response.data.story);
-  //  this.stories.unshift(storyInstance);
-  //  user.ownStories.unshift(storyInstance);
-
-  //  return storyInstance;
-  //}
   async removeStory(user, storyId) {
     const token = user.loginToken;
     await axios({

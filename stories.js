@@ -21,14 +21,18 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story, showDeleteBtn = false) {
   // console.debug("generateStoryMarkup", story);
-
-  let star = favoriteStar(story, currentUser)
+  let star = '';
+  if(currentUser === true){
+    star = true;
+  } else {
+    star = false;
+  }
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
       ${showDeleteBtn ? getDeleteBtnHTML() : ""}
-        ${star}
-        <a href="${story.url}" target="a_blank" class="story-link">
+      ${star ? favoriteStar(story, currentUser) : ""}
+      <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
         <small class="story-hostname">(${hostName})</small>
@@ -46,14 +50,9 @@ function getDeleteBtnHTML() {
 }
 
 function favoriteStar(story, user) {
-  const isFavorite = user ? user.isFavorite(story) : false;
-  let starType = '';
-  if(isFavorite === true){
-    starType = 'fas';
-  }
-  else {
-    starType = 'far';
-  }
+  const isFavorite = user.isFavorite(story);
+  const starType = isFavorite ? "fas" : "far";
+
   return `<span class="star">
             <i class="${starType} fa-star"></i>
           </span>`;
@@ -146,20 +145,20 @@ function putFavoritesListOnPage() {
 async function toggleStoryFavorite(evt) {
   console.debug("toggleStoryFavorite");
 
-  const $tgt = $(evt.target);
-  const $closestLi = $tgt.closest("li");
+  const $target = $(evt.target);
+  const $closestLi = $target.closest("li");
   const storyId = $closestLi.attr("id");
   const story = storyList.stories.find(s => s.storyId === storyId);
 
   // see if the item is already favorited (checking by presence of star)
-  if ($tgt.hasClass("fas")) {
+  if ($target.hasClass("fas")) {
     // currently a favorite: remove from user's fav list and change star
     await currentUser.deleteFavorite(story);
-    $tgt.closest("i").toggleClass("fas far");
+    $target.closest("i").toggleClass("fas far");
   } else {
     // currently not a favorite: do the opposite
     await currentUser.addFavorite(story);
-    $tgt.closest("i").toggleClass("fas far");
+    $target.closest("i").toggleClass("fas far");
   }
 }
 
