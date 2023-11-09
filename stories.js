@@ -21,12 +21,7 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story, showDeleteBtn = false) {
   // console.debug("generateStoryMarkup", story);
-  let star = '';
-  if(currentUser === true){
-    star = true;
-  } else {
-    star = false;
-  }
+  const star = Boolean(currentUser);
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
@@ -85,9 +80,12 @@ async function submitStory(e) {
     
     const addStory = generateStoryMarkup(newStory)
     $('.stories-list').prepend(addStory);
-    author = '';
-    title = '';
-    url = '';
+
+    author.val() = '';
+    title.val() = '';
+    url.val() = '';
+
+    $('#submitForm').slideUp('slow');
 }
 
 $('#submitForm').on('submit', submitStory)
