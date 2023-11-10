@@ -81,9 +81,9 @@ async function submitStory(e) {
     const addStory = generateStoryMarkup(newStory)
     $('.stories-list').prepend(addStory);
 
-    author.val() = '';
-    title.val() = '';
-    url.val() = '';
+    author = '';
+    title = '';
+    url = '';
 
     $('#submitForm').slideUp('slow');
 }
