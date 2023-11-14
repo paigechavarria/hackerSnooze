@@ -230,18 +230,10 @@ class User {
   async addOrDeleteFavorite(method, story){
     //const token = currentUser.loginToken;
     if(method === 'post'){
-      axios.post(`https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${story.storyId}?token=${this.loginToken}`//, {
-        //params : {
-        //  token
-        //}
-      );
+      axios.post(`https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${story.storyId}?token=${this.loginToken}`);
     };
     if(method === 'delete'){
-      axios.delete(`https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${story.storyId}?token=${this.loginToken}` //{
-        //params : {
-        //  token
-        //}
-      );
+      axios.delete(`https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${story.storyId}?token=${this.loginToken}`);
     };
   };
 
