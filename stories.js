@@ -111,10 +111,18 @@ function putUserStoriesOnPage() {
 }
 
 function favoriteStar(story, user) {
-    const isFavorite = user ? user.isFavorite(story) : false;
-    console.log(isFavorite);
-    //console.log(user.isFavorite);
-    console.log(user);
+    let isFavorite = false;
+    
+    //console.log(isFavorite); user ? user.isFavorite(story) : 
+    const favs = user.favorites
+    //console.log(favs[0].storyId);
+    //console.log(favs);
+    for(let fav of favs){
+      if(story.storyId === fav.storyId){
+        isFavorite = true;
+      }
+    }
+    //console.log(story);
     let starType = '';
     if(isFavorite){
       starType = 'fas'
@@ -164,7 +172,7 @@ async function toggleStoryFavorite(evt) {
   } else {
     // currently not a favorite: do the opposite
     await currentUser.deleteFavorite(story);
-    $target.closest("i").toggleClass("fas far");
+    $target.closest("i").toggleClass("far fas");
   }
 }
 

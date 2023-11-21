@@ -245,10 +245,11 @@ class User {
 
   async deleteFavorite(story){
     //return stories that do not match this stories id 
-    this.favorites.filter((fav) => {
-      return fav.storyId !== story.storyId;
-    });
-    await this.addOrDeleteFavorite('delete', story);
+    this.favorites = this.favorites.filter(s => s.storyId !== story.storyId);
+      //console.log(`story: ${story.storyId}`)
+      //console.log(`fav: ${s.storyId}`)
+    
+    await this.addOrDeleteFavorite('delete', story)
   };
 
   isFavorite(story){
