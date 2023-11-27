@@ -113,16 +113,13 @@ function putUserStoriesOnPage() {
 function favoriteStar(story, user) {
     let isFavorite = false;
     
-    //console.log(isFavorite); user ? user.isFavorite(story) : 
     const favs = user.favorites
-    //console.log(favs[0].storyId);
-    //console.log(favs);
+    
     for(let fav of favs){
       if(story.storyId === fav.storyId){
         isFavorite = true;
       }
     }
-    //console.log(story);
     let starType = '';
     if(isFavorite){
       starType = 'fas'
