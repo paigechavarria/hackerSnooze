@@ -39,7 +39,7 @@ function hidePageComponents() {
     $signupForm,
     $userProfile
   ];
-  components.forEach(c => c.hide());
+  components.forEach(c => c.hide()); //hiding each element in components array
 }
 
 /** Overall function to kick off the app. */
