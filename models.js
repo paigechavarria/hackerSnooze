@@ -24,7 +24,6 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-
     return new URL(this.url).host;
   }
 }
@@ -50,8 +49,7 @@ class StoryList {
   static async getStories() {
     // Note presence of `static` keyword: this indicates that getStories is
     //  **not** an instance method. Rather, it is a method that is called on the
-    //  class directly. Why doesn't it make sense for getStories to be an
-    //  instance method?
+    //  class directly.
 
     // query the /stories endpoint (no auth required)
     const response = await axios({
@@ -87,8 +85,8 @@ class StoryList {
     });
 
     const story = new Story(response.data.story);
-    this.stories.unshift(story);
-    user.ownStories.unshift(story);
+    this.stories.unshift(story); //adding story to home page
+    user.ownStories.unshift(story); //adding story to my stories tab
 
     return story;
   }
@@ -133,7 +131,7 @@ class User {
     this.name = name;
     this.createdAt = createdAt;
 
-    // instantiate Story instances for the user's favorites and ownStories
+    // creates Story instances for the user's favorites and ownStories
     this.favorites = favorites.map(s => new Story(s));
     this.ownStories = ownStories.map(s => new Story(s));
 
@@ -228,7 +226,6 @@ class User {
 
   //making a function to pass each 'favorite' story through
   async addOrDeleteFavorite(method, story){
-    //const token = currentUser.loginToken;
     if(method === 'post'){
       axios.post(`https://hack-or-snooze-v3.herokuapp.com/users/${this.username}/favorites/${story.storyId}?token=${this.loginToken}`);
     };

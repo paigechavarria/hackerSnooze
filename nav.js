@@ -36,6 +36,7 @@ function updateNavOnLogin() {
   $navUserProfile.text(`${currentUser.username}`).show();
 }
 
+//only show favorite stories when favorites is cicked 
 function navFavoritesClick(evt) {
   console.debug("navFavoritesClick", evt);
   hidePageComponents();
@@ -44,12 +45,15 @@ function navFavoritesClick(evt) {
 
 $body.on("click", "#nav-favorites", navFavoritesClick);
 
+//showing submit form when submit is clicked 
 function navOnSubmit(e){
-  $('#submitForm').show();
+  $submitForm.show();
 }
+
 
 $('#nav-submit').on('click', navOnSubmit)
 
+//only showing own stories when my stories is clicked 
 function navMyStories(evt) {
   console.debug("navMyStories", evt);
   hidePageComponents();
@@ -59,6 +63,7 @@ function navMyStories(evt) {
 
 $body.on("click", "#nav-my-stories", navMyStories);
 
+//only showing profile stats when profile is clicked 
 function navProfileClick(evt) {
   console.debug("navProfileClick", evt);
   hidePageComponents();

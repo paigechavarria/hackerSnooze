@@ -17,7 +17,7 @@ const $storiesLists = $(".stories-list");
 const $loginForm = $("#login-form");
 const $signupForm = $("#signup-form");
 
-const $submitForm = $("#submit-form");
+const $submitForm = $("#submitForm");
 
 const $navSubmitStory = $("#nav-submit-story");
 const $navLogin = $("#nav-login");

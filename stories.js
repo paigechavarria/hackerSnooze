@@ -61,18 +61,24 @@ function putStoriesOnPage() {
 
 async function submitStory(e) {
     e.preventDefault();
+
+    //gathering values from inputs 
     let author = $('#author').val();
     let title = $('#title').val();
     let url = $('#url').val();
     let username = currentUser.username;
 
+    //accessing instance of Story to use addStory function 
     const newStory = await storyList.addStory(currentUser, {author, title, url, username})
     
+    //generating story markup and adding that to the top of stories on the page
     const addStory = generateStoryMarkup(newStory)
     $('.stories-list').prepend(addStory);
 
+    //resetting value to be blank after submission
     $('#submitForm :input').val('');
 
+    //adding fancy slide up effect after submission
     $('#submitForm').slideUp('slow');
 }
 
@@ -81,9 +87,13 @@ $('#submitForm').on('submit', submitStory)
 async function deleteStory(evt) {
   console.debug("deleteStory");
 
+  //accessing closest li of the ol of the target 
   const $closestLi = $(evt.target).closest("li");
-  const storyId = $closestLi.attr("id");
 
+  //accessing the set id of the story id
+  const storyId = $closestLi.attr("id"); 
+
+  //using story instance to access removeStory function
   await storyList.removeStory(currentUser, storyId);
 
   // re-generate story list
@@ -97,6 +107,7 @@ function putUserStoriesOnPage() {
 
   $ownStories.empty();
 
+  //if you have not created any stories then generate this message
   if (currentUser.ownStories.length === 0) {
     $ownStories.append("<h5>No stories added</h5>");
   } else {
@@ -113,13 +124,17 @@ function putUserStoriesOnPage() {
 function favoriteStar(story, user) {
     let isFavorite = false;
     
+    //accessing favorites array of currentUser
     const favs = user.favorites
     
+    //looping over favs to set isFavorite to true for favorited stories
     for(let fav of favs){
       if(story.storyId === fav.storyId){
         isFavorite = true;
       }
     }
+
+    //if isFavorite is true set starType to filled in ('fas') or blank ('far')
     let starType = '';
     if(isFavorite){
       starType = 'fas'
@@ -127,21 +142,22 @@ function favoriteStar(story, user) {
       starType = 'far'
     }
   
-  
+    //generate html for each starType 
     return `<span class="star">
               <i class="${starType} fa-star"></i>
             </span>`;
 }
 
+
 function putFavoritesListOnPage() {
   console.debug("putFavoritesListOnPage");
 
   $favoritedStories.empty();
-
+  //if no stories are favorited generate this message
   if (currentUser.favorites.length === 0) {
     $favoritedStories.append("<h5>No favorites</h5>");
   } else {
-    // loop through all of users favorites and generate HTML for them
+    //loop through all of users favorites and generate HTML for them
     for (let story of currentUser.favorites) {
       const $story = generateStoryMarkup(story);
       $favoritedStories.append($story);
@@ -161,13 +177,13 @@ async function toggleStoryFavorite(evt) {
   //returning story that matches the story Id that was clicked
   const story = storyList.stories.find(s => s.storyId === storyId);
 
-  // see if the item is already favorited (checking by presence of star)
+  //see if the item is already favorited (checking by presence of star)
   if ($target.hasClass("far")) {
-    // currently a favorite: remove from user's fav list and change star
+    //currently not a favorite: add to user's fav list and change star
     await currentUser.addFavorite(story);
     $target.closest("i").toggleClass("fas far");
   } else {
-    // currently not a favorite: do the opposite
+    // currently  a favorite: do the opposite
     await currentUser.deleteFavorite(story);
     $target.closest("i").toggleClass("far fas");
   }

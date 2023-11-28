@@ -21,6 +21,7 @@ async function login(evt) {
   // which we'll make the globally-available, logged-in user.
   currentUser = await User.login(username, password);
 
+  //resets input values of loginForm
   $loginForm.trigger("reset");
 
   saveUserCredentialsInLocalStorage();
